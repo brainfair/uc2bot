@@ -33,7 +33,7 @@ jobs:
           context: .
           file: ./dockerfile
           push: true
-          tags: 
+          tags: |
             brainfair/uc2bot:latest
             brainfair/uc2bot:0.1.${{github.run_number}}
       -
