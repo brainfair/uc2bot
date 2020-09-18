@@ -45,7 +45,7 @@ jobs:
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
       - 
-      - name: Azure CLI script file
+        name: Azure CLI script file
         uses: azure/CLI@v1
         with:
           inlineScript: |
