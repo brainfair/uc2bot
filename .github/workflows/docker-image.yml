@@ -45,11 +45,8 @@ jobs:
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
       - 
-        name: Update ACI
-        uses: Azure/aci-deploy@v1
+      - name: Azure CLI script file
+        uses: azure/CLI@v1
         with:
-          resource-group: mybot
-          dns-name-label: uc2bot
-          image: brainfair/uc2bot:0.1.${{github.run_number}}
-          name: uc2bot
-          location: 'West Europe'
+          inlineScript: |
+            az container restart --name uc2bot --resource-group ${{ secrets.AZURE_RG }}
