@@ -49,6 +49,6 @@ jobs:
         uses: Azure/aci-deploy@v1
         with:
           resource-group: mybot
-          image: nginx
-          name: brainfair/uc2bot:0.1.${{github.run_number}}
+          image: brainfair/uc2bot:0.1.${{github.run_number}}
+          name: uc2bot
           location: 'West Europe'
