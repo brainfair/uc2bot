@@ -33,7 +33,7 @@ func main() {
 		var re = regexp.MustCompile(`бекап|бэкап|рестор|backup|restore|ревакер`)
 		now := time.Now()
 		fmt.Println(now)
-		if re.MatchString(update.Message.Text) && (now.After(t.Add(5 * time.Minute))) {
+		if re.MatchString(update.Message.Text) && (now.After(t.Add(0.5 * time.Minute))) {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Погугли =)")
 			if update.Message.From.UserName == "angrypuffin" {
 				msg = tgbotapi.NewMessage(update.Message.Chat.ID, "Погугли =)")
