@@ -49,6 +49,7 @@ jobs:
         uses: Azure/aci-deploy@v1
         with:
           resource-group: mybot
+          dns-name-label: uc2bot
           image: brainfair/uc2bot:0.1.${{github.run_number}}
           name: uc2bot
           location: 'West Europe'
