@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: UC2BOT Docker Image CI/CD
 
 on:
   push:
@@ -40,7 +40,7 @@ jobs:
           push: true
           tags: |
             brainfair/uc2bot:latest
-            brainfair/uc2bot:0.1.${{github.run_number}}
+            brainfair/uc2bot:0.1.${{ github.run_number }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
