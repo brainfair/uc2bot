@@ -1,0 +1,30 @@
+apiVersion: 2019-12-01
+location: westeu
+name: uc2bot
+properties:
+  containers:
+  - name: uc2bot
+    properties:
+      image: brainfair/uc2bot:latest
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 0.5
+  - name: uc2bot-mysql
+    properties:
+      image: mysql:8.0.21
+      resources:
+        requests:
+          cpu: 1
+          memoryInGb: 0.5
+      ports:
+      - port: 3306
+  osType: Linux
+  ipAddress:
+    type: Private
+    ports:
+    - protocol: tcp
+      port: 3306
+  networkProfile:
+    id: /subscriptions/96865c3c-064b-44e0-8497-53180bfd290e/resourceGroups/mybot/providers/Microsoft.Network/networkProfiles/uc2bot-networkProfile
+type: Microsoft.ContainerInstance/containerGroups

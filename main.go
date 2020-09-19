@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"strings"
 	"time"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
@@ -30,10 +31,19 @@ func main() {
 		if update.Message == nil { // ignore any non-Message Updates
 			continue
 		}
+
+		if update.Message.NewChatMembers != nil {
+			for _, v := range *update.Message.NewChatMembers {
+				chatname := update.Message.Chat.UserName
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Привет, "+v.UserName+"!\nДобро пожаловать в теплый ламповый чат: @"+chatname)
+				bot.Send(msg)
+			}
+		}
+
 		var re = regexp.MustCompile(`бекап|бэкап|рестор|backup|restore|ревакер`)
 		now := time.Now()
 		fmt.Println(now)
-		if re.MatchString(update.Message.Text) && (now.After(t.Add(2 * time.Minute))) {
+		if re.MatchString(strings.ToLower(update.Message.Text)) && (now.After(t.Add(2 * time.Minute))) {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Погугли =)")
 			if update.Message.From.UserName == "angrypuffin" {
 				msg = tgbotapi.NewMessage(update.Message.Chat.ID, "Погугли =)")
@@ -48,5 +58,6 @@ func main() {
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
 		}
+
 	}
 }
