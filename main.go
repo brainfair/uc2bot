@@ -80,7 +80,7 @@ func main() {
 			bot.Send(msg)
 		} else if update.Message.Text == "/dbtest" { // dbtest action
 			var answer string
-			err := db.QueryRow("SELECT answer FROM QNA where question='q1'").Scan(answer)
+			err := db.QueryRow("SELECT answer FROM QNA where question='q1'").Scan(&answer)
 			// if there is an error inserting, handle it
 			if err != nil {
 				panic(err.Error())
