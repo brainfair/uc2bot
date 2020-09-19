@@ -40,7 +40,7 @@ func main() {
 			}
 		}
 
-		var re = regexp.MustCompile(`бекап|бэкап|рестор|backup|restore|ревакер`)
+		var re = regexp.MustCompile(`бекап|бэкап|рестор|backup|restore|ревакер|резервное|рекавер|восстанов`)
 		now := time.Now()
 		fmt.Println(now)
 		if re.MatchString(strings.ToLower(update.Message.Text)) && (now.After(t.Add(2 * time.Minute))) {
