@@ -31,7 +31,6 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-	defer db.Close()
 
 	//connect to telegram api
 	bot, err := tgbotapi.NewBotAPI(bottoken)
@@ -80,21 +79,18 @@ func main() {
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
 		} else if update.Message.Text == "/dbtest" { // dbtest action
-			dbselect, err := db.Query("SELECT answer FROM QNA where question='q1'")
+			var answer string
+			err := db.QueryRow("SELECT answer FROM QNA where question='q1'").Scan(answer)
 			// if there is an error inserting, handle it
 			if err != nil {
 				panic(err.Error())
 			}
 			// be careful deferring Queries if you are using transactions
-			defer dbselect.Close()
-			for dbselect.Next() {
-				var answer string
-				dbselect.Scan(answer)
-				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Наверно ответ: "+answer)
-				msg.ReplyToMessageID = update.Message.MessageID
-				bot.Send(msg)
-			}
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Наверно ответ: "+answer)
+			msg.ReplyToMessageID = update.Message.MessageID
+			bot.Send(msg)
 		}
 
 	}
+	defer db.Close()
 }
