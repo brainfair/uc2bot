@@ -3,6 +3,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
@@ -10,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	_ "github.com/go-sql-driver/mysql"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
@@ -17,10 +19,19 @@ import (
 func main() {
 	//read bot token from env
 	bottoken := os.Getenv("BOT_TOKEN")
+	mysqlpass := os.Getenv("MYSQL_PASSWORD")
 	if bottoken == "" {
 		fmt.Fprintf(os.Stderr, "BOT TOKEN NOT FOUND!\n")
 		os.Exit(1)
 	}
+	connectionstring := "root:" + mysqlpass + "@tcp(127.0.0.1:3306)/uc2botdatabase"
+	db, err := sql.Open("mysql", connectionstring)
+
+	// if there is an error opening the connection, handle it
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
 
 	//connect to telegram api
 	bot, err := tgbotapi.NewBotAPI(bottoken)
@@ -68,6 +79,21 @@ func main() {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hello world, Viva la @BrainFair!\n You can make me better: https://github.com/brainfair/uc2bot")
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
+		} else if update.Message.Text == "/dbtest" { // dbtest action
+			dbselect, err := db.Query("SELECT answer FROM QNA where question='q1'")
+			// if there is an error inserting, handle it
+			if err != nil {
+				panic(err.Error())
+			}
+			// be careful deferring Queries if you are using transactions
+			defer dbselect.Close()
+			for dbselect.Next() {
+				var answer string
+				dbselect.Scan(answer)
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Наверно ответ: "+answer)
+				msg.ReplyToMessageID = update.Message.MessageID
+				bot.Send(msg)
+			}
 		}
 
 	}
