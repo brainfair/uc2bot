@@ -35,7 +35,7 @@ func main() {
 		if update.Message.NewChatMembers != nil {
 			for _, v := range *update.Message.NewChatMembers {
 				chatname := update.Message.Chat.UserName
-				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Привет, "+v.UserName+"!\nДобро пожаловать в теплый ламповый чат: @"+chatname)
+				msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Привет, "+v.FirstName+"!\nДобро пожаловать в теплый ламповый чат: @"+chatname)
 				bot.Send(msg)
 			}
 		}
