@@ -75,7 +75,7 @@ func main() {
 			bot.Send(msg)
 			t = time.Now()
 		} else if update.Message.Text == "/help" || update.Message.Text == "/help@"+botname { // help action
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hello world, Viva la @BrainFair!\n You can make me better: https://github.com/brainfair/uc2bot")
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hello world!\nYou can make me better: https://github.com/brainfair/uc2bot\nI can:\n/help - show this help\n/report - summon admins for spam message")
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
 		} else if update.Message.Text == "/dbtest" { // dbtest action
