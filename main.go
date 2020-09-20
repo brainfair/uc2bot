@@ -39,7 +39,7 @@ func main() {
 	}
 	t := time.Now()
 	bot.Debug = true
-
+	botname := bot.Self.UserName
 	log.Printf("Authorized on account %s", bot.Self.UserName)
 
 	u := tgbotapi.NewUpdate(0)
@@ -74,7 +74,7 @@ func main() {
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
 			t = time.Now()
-		} else if update.Message.Text == "/help" { // help action
+		} else if update.Message.Text == "/help" || update.Message.Text == "/help@"+botname { // help action
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hello world, Viva la @BrainFair!\n You can make me better: https://github.com/brainfair/uc2bot")
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
@@ -89,7 +89,7 @@ func main() {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Наверно ответ: "+answer)
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
-		} else if update.Message.Text == "/report" {
+		} else if update.Message.Text == "/report" || update.Message.Text == "/report@"+botname {
 			admins, err := bot.GetChatAdministrators(update.Message.Chat.ChatConfig()) //get chat admins
 			if err != nil {
 				panic(err.Error())

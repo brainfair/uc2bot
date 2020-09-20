@@ -1,0 +1,2 @@
+report - report spam to chat admins
+help - show help
