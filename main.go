@@ -89,6 +89,18 @@ func main() {
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Наверно ответ: "+answer)
 			msg.ReplyToMessageID = update.Message.MessageID
 			bot.Send(msg)
+		} else if update.Message.Text == "/report" {
+			admins, err := bot.GetChatAdministrators(update.Message.Chat.ChatConfig()) //get chat admins
+			if err != nil {
+				panic(err.Error())
+			}
+			message := "Alarm summoning:"
+			for _, adminuser := range admins {
+				message += " @" + adminuser.User.UserName
+			}
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, message)
+			msg.ReplyToMessageID = update.Message.MessageID
+			bot.Send(msg)
 		}
 
 	}
